@@ -17,6 +17,15 @@ public interface ControlGomoku19 {
 	void pulsandoBoton(java.awt.event.ActionEvent evt);
 	void ejecutarControl(); // programa principal de control
 	void setEstado(String estado); // actualiza campo de estado
+	void borrarCasillas(); // borrar las marcas de las casillas
+	void marcarCasilla(javax.swing.JLabel casilla); // marca una casilla para un jugador
+	void pintarCasilla(javax.swing.JLabel casilla); // pinta una casilla en el tablero para un jugador
+	int getMarcaCasilla(javax.swing.JLabel casilla); // devuelve la marca de una casilla
+	void comprobarVictoria(int ordinal); // comprueba si se ha alcanzado victoria al jugar en casilla ordinal
+	boolean comprobarVictoriaHorizontal(int ordinal); // comprueba victoria en línea horizontal
+	boolean comprobarVictoriaVertical(int ordinal); // comprueba victoria en línea vertical
+	boolean comprobarVictoriaDiagonalPrincipal(int ordinal); // comprueba victoria en diagonal principal (0, 0)-(n, n)
+	boolean comprobarVictoriaDiagonalSecundaria(int ordinal); // comprueba victoria en diagonal secundaria (0, n)-(n, 0)
 
 	// métodos	default
 	default void avisarModal(String mensaje) {

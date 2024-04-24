@@ -4261,7 +4261,7 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		pintarCasilla(cualCasilla);
 		comprobarVictoria(getOrdinalCasilla(cualCasilla));
 		esTurnoA=!esTurnoA;
-		setEstado("Es el turno del jugador "+(esTurnoA ? "A" : "B"));
+		setEstado("Es el turno del jugador "+(esTurnoA ? "A (X)" : "B (O)"));
 		esActivoGui=true;
 		return;
 	}
@@ -4295,24 +4295,44 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		campoEstado.setText(estado);
 		return;
 	}
+	@Override
 	public void borrarCasillas() {
 		for (int n=0; n<numCasillas; n++)
 			casillas[n]=0;
 		return;
 	}
+	@Override
 	public void marcarCasilla(javax.swing.JLabel casilla) {
 		casillas[getOrdinalCasilla(casilla)]=esTurnoA ? marcaA : marcaB;
 		return;
 	}
+	@Override
 	public void pintarCasilla(javax.swing.JLabel casilla) {
 		casilla.setIcon(esTurnoA ? imagenA : imagenB);
 		return;
 	}
+	@Override
 	public int getMarcaCasilla(javax.swing.JLabel casilla) {
 		return casillas[getOrdinalCasilla(casilla)];
 	}
+	@Override
 	public void comprobarVictoria(int ordinal) { // comprobar si ese ordinal de casilla produce victoria
-
+		if (
+			comprobarVictoriaHorizontal(ordinal)
+			|| comprobarVictoriaVertical(ordinal)
+			|| comprobarVictoriaDiagonalPrincipal(ordinal)
+			|| comprobarVictoriaDiagonalSecundaria(ordinal)
+		) {
+			setEstado("Gana la partida el jugador "+(esTurnoA ? "A (X)" : "B (O)"));
+			botonC.setEnabled(false);
+		}
 		return;
+	}
+	@Override
+	public boolean comprobarVictoriaHorizontal(int ordinal) {
+		int fila=ordinalToFila(ordinal);
+		for (int columna=ordinalToColumna(ordinal)-4; columna<=ordinalToColumna(ordinal); columna++)
+	//		if (columna>=)
+	//	return;
 	}
 }
