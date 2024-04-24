@@ -4225,10 +4225,12 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 
 	// campos propios
 	Gomoku19 app; // referencia a la propia aplicación
-	final javax.swing.ImageIcon imagenVacia=new javax.swing.ImageIcon(getClass().getResource("vacio21borde.png"));
-	final javax.swing.ImageIcon imagenA=new javax.swing.ImageIcon(getClass().getResource("azul21borde.png"));
-	final javax.swing.ImageIcon imagenB=new javax.swing.ImageIcon(getClass().getResource("rojo21borde.png"));
-	boolean esTurnoA; // es o no el turno del jugador A
+	private final javax.swing.ImageIcon imagenVacia=new javax.swing.ImageIcon(getClass().getResource("vacio21borde.png"));
+	private final javax.swing.ImageIcon imagenA=new javax.swing.ImageIcon(getClass().getResource("azul21borde.png"));
+	private final javax.swing.ImageIcon imagenB=new javax.swing.ImageIcon(getClass().getResource("rojo21borde.png"));
+	private boolean esTurnoA; // es o no el turno del jugador A
+	private boolean esActivoGui; // es o no activa la interfaz de usuario
+	private int[] casillas=new int[numCasillas];
 
 	// métodos propios
 	public void ejecutarControl() {
@@ -4240,384 +4242,32 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		botonB.setEnabled(true);
 		botonC.setText(" ");
 		botonC.setEnabled(false);
-		botonD.setText(" ");
-		botonD.setEnabled(false);
+		botonD.setText("ayuda");
+		botonD.setEnabled(true);
+		borrarCasillas();
 		setEstado("Elija turno de juego para comenzar...");
+		esActivoGui=false;
 		return;
 	}
 	@Override
 	public void pulsandoRaton(java.awt.event.MouseEvent evt) {
-		Object cual=evt.getSource();
-		int n; // número de casilla
-
-		if (cual==c100) n=0;
-		else if (cual==c101) n=1;
-		else if (cual==c102) n=2;
-		else if (cual==c103) n=3;
-		else if (cual==c104) n=4;
-		else if (cual==c105) n=5;
-		else if (cual==c106) n=6;
-		else if (cual==c107) n=7;
-		else if (cual==c108) n=8;
-		else if (cual==c109) n=9;
-		else if (cual==c110) n=10;
-		else if (cual==c111) n=11;
-		else if (cual==c112) n=12;
-		else if (cual==c113) n=13;
-		else if (cual==c114) n=14;
-		else if (cual==c115) n=15;
-		else if (cual==c116) n=16;
-		else if (cual==c117) n=17;
-		else if (cual==c118) n=18;
-		else if (cual==c119) n=19;
-		else if (cual==c120) n=20;
-		else if (cual==c121) n=21;
-		else if (cual==c122) n=22;
-		else if (cual==c123) n=23;
-		else if (cual==c124) n=24;
-		else if (cual==c125) n=25;
-		else if (cual==c126) n=26;
-		else if (cual==c127) n=27;
-		else if (cual==c128) n=28;
-		else if (cual==c129) n=29;
-		else if (cual==c130) n=30;
-		else if (cual==c131) n=31;
-		else if (cual==c132) n=32;
-		else if (cual==c133) n=33;
-		else if (cual==c134) n=34;
-		else if (cual==c135) n=35;
-		else if (cual==c136) n=36;
-		else if (cual==c137) n=37;
-		else if (cual==c138) n=38;
-		else if (cual==c139) n=39;
-		else if (cual==c140) n=40;
-		else if (cual==c141) n=41;
-		else if (cual==c142) n=42;
-		else if (cual==c143) n=43;
-		else if (cual==c144) n=44;
-		else if (cual==c145) n=45;
-		else if (cual==c146) n=46;
-		else if (cual==c147) n=47;
-		else if (cual==c148) n=48;
-		else if (cual==c149) n=49;
-		else if (cual==c150) n=50;
-		else if (cual==c151) n=51;
-		else if (cual==c152) n=52;
-		else if (cual==c153) n=53;
-		else if (cual==c154) n=54;
-		else if (cual==c155) n=55;
-		else if (cual==c156) n=56;
-		else if (cual==c157) n=57;
-		else if (cual==c158) n=58;
-		else if (cual==c159) n=59;
-		else if (cual==c160) n=60;
-		else if (cual==c161) n=61;
-		else if (cual==c162) n=62;
-		else if (cual==c163) n=63;
-		else if (cual==c164) n=64;
-		else if (cual==c165) n=65;
-		else if (cual==c166) n=66;
-		else if (cual==c167) n=67;
-		else if (cual==c168) n=68;
-		else if (cual==c169) n=69;
-		else if (cual==c170) n=70;
-		else if (cual==c171) n=71;
-		else if (cual==c172) n=72;
-		else if (cual==c173) n=73;
-		else if (cual==c174) n=74;
-		else if (cual==c175) n=75;
-		else if (cual==c176) n=76;
-		else if (cual==c177) n=77;
-		else if (cual==c178) n=78;
-		else if (cual==c179) n=79;
-		else if (cual==c180) n=80;
-		else if (cual==c181) n=81;
-		else if (cual==c182) n=82;
-		else if (cual==c183) n=83;
-		else if (cual==c184) n=84;
-		else if (cual==c185) n=85;
-		else if (cual==c186) n=86;
-		else if (cual==c187) n=87;
-		else if (cual==c188) n=88;
-		else if (cual==c189) n=89;
-		else if (cual==c190) n=90;
-		else if (cual==c191) n=91;
-		else if (cual==c192) n=92;
-		else if (cual==c193) n=93;
-		else if (cual==c194) n=94;
-		else if (cual==c195) n=95;
-		else if (cual==c196) n=96;
-		else if (cual==c197) n=97;
-		else if (cual==c198) n=98;
-		else if (cual==c199) n=99;
-		else if (cual==c200) n=100;
-		else if (cual==c201) n=101;
-		else if (cual==c202) n=102;
-		else if (cual==c203) n=103;
-		else if (cual==c204) n=104;
-		else if (cual==c205) n=105;
-		else if (cual==c206) n=106;
-		else if (cual==c207) n=107;
-		else if (cual==c208) n=108;
-		else if (cual==c209) n=109;
-		else if (cual==c210) n=110;
-		else if (cual==c211) n=111;
-		else if (cual==c212) n=112;
-		else if (cual==c213) n=113;
-		else if (cual==c214) n=114;
-		else if (cual==c215) n=115;
-		else if (cual==c216) n=116;
-		else if (cual==c217) n=117;
-		else if (cual==c218) n=118;
-		else if (cual==c219) n=119;
-		else if (cual==c220) n=120;
-		else if (cual==c221) n=121;
-		else if (cual==c222) n=122;
-		else if (cual==c223) n=123;
-		else if (cual==c224) n=124;
-		else if (cual==c225) n=125;
-		else if (cual==c226) n=126;
-		else if (cual==c227) n=127;
-		else if (cual==c228) n=128;
-		else if (cual==c229) n=129;
-		else if (cual==c230) n=130;
-		else if (cual==c231) n=131;
-		else if (cual==c232) n=132;
-		else if (cual==c233) n=133;
-		else if (cual==c234) n=134;
-		else if (cual==c235) n=135;
-		else if (cual==c236) n=136;
-		else if (cual==c237) n=137;
-		else if (cual==c238) n=138;
-		else if (cual==c239) n=139;
-		else if (cual==c240) n=140;
-		else if (cual==c241) n=141;
-		else if (cual==c242) n=142;
-		else if (cual==c243) n=143;
-		else if (cual==c244) n=144;
-		else if (cual==c245) n=145;
-		else if (cual==c246) n=146;
-		else if (cual==c247) n=147;
-		else if (cual==c248) n=148;
-		else if (cual==c249) n=149;
-		else if (cual==c250) n=150;
-		else if (cual==c251) n=151;
-		else if (cual==c252) n=152;
-		else if (cual==c253) n=153;
-		else if (cual==c254) n=154;
-		else if (cual==c255) n=155;
-		else if (cual==c256) n=156;
-		else if (cual==c257) n=157;
-		else if (cual==c258) n=158;
-		else if (cual==c259) n=159;
-		else if (cual==c260) n=160;
-		else if (cual==c261) n=161;
-		else if (cual==c262) n=162;
-		else if (cual==c263) n=163;
-		else if (cual==c264) n=164;
-		else if (cual==c265) n=165;
-		else if (cual==c266) n=166;
-		else if (cual==c267) n=167;
-		else if (cual==c268) n=168;
-		else if (cual==c269) n=169;
-		else if (cual==c270) n=170;
-		else if (cual==c271) n=171;
-		else if (cual==c272) n=172;
-		else if (cual==c273) n=173;
-		else if (cual==c274) n=174;
-		else if (cual==c275) n=175;
-		else if (cual==c276) n=176;
-		else if (cual==c277) n=177;
-		else if (cual==c278) n=178;
-		else if (cual==c279) n=179;
-		else if (cual==c280) n=180;
-		else if (cual==c281) n=181;
-		else if (cual==c282) n=182;
-		else if (cual==c283) n=183;
-		else if (cual==c284) n=184;
-		else if (cual==c285) n=185;
-		else if (cual==c286) n=186;
-		else if (cual==c287) n=187;
-		else if (cual==c288) n=188;
-		else if (cual==c289) n=189;
-		else if (cual==c290) n=190;
-		else if (cual==c291) n=191;
-		else if (cual==c292) n=192;
-		else if (cual==c293) n=193;
-		else if (cual==c294) n=194;
-		else if (cual==c295) n=195;
-		else if (cual==c296) n=196;
-		else if (cual==c297) n=197;
-		else if (cual==c298) n=198;
-		else if (cual==c299) n=199;
-		else if (cual==c300) n=200;
-		else if (cual==c301) n=201;
-		else if (cual==c302) n=202;
-		else if (cual==c303) n=203;
-		else if (cual==c304) n=204;
-		else if (cual==c305) n=205;
-		else if (cual==c306) n=206;
-		else if (cual==c307) n=207;
-		else if (cual==c308) n=208;
-		else if (cual==c309) n=209;
-		else if (cual==c310) n=210;
-		else if (cual==c311) n=211;
-		else if (cual==c312) n=212;
-		else if (cual==c313) n=213;
-		else if (cual==c314) n=214;
-		else if (cual==c315) n=215;
-		else if (cual==c316) n=216;
-		else if (cual==c317) n=217;
-		else if (cual==c318) n=218;
-		else if (cual==c319) n=219;
-		else if (cual==c320) n=220;
-		else if (cual==c321) n=221;
-		else if (cual==c322) n=222;
-		else if (cual==c323) n=223;
-		else if (cual==c324) n=224;
-		else if (cual==c325) n=225;
-		else if (cual==c326) n=226;
-		else if (cual==c327) n=227;
-		else if (cual==c328) n=228;
-		else if (cual==c329) n=229;
-		else if (cual==c330) n=230;
-		else if (cual==c331) n=231;
-		else if (cual==c332) n=232;
-		else if (cual==c333) n=233;
-		else if (cual==c334) n=234;
-		else if (cual==c335) n=235;
-		else if (cual==c336) n=236;
-		else if (cual==c337) n=237;
-		else if (cual==c338) n=238;
-		else if (cual==c339) n=239;
-		else if (cual==c340) n=240;
-		else if (cual==c341) n=241;
-		else if (cual==c342) n=242;
-		else if (cual==c343) n=243;
-		else if (cual==c344) n=244;
-		else if (cual==c345) n=245;
-		else if (cual==c346) n=246;
-		else if (cual==c347) n=247;
-		else if (cual==c348) n=248;
-		else if (cual==c349) n=249;
-		else if (cual==c350) n=250;
-		else if (cual==c351) n=251;
-		else if (cual==c352) n=252;
-		else if (cual==c353) n=253;
-		else if (cual==c354) n=254;
-		else if (cual==c355) n=255;
-		else if (cual==c356) n=256;
-		else if (cual==c357) n=257;
-		else if (cual==c358) n=258;
-		else if (cual==c359) n=259;
-		else if (cual==c360) n=260;
-		else if (cual==c361) n=261;
-		else if (cual==c362) n=262;
-		else if (cual==c363) n=263;
-		else if (cual==c364) n=264;
-		else if (cual==c365) n=265;
-		else if (cual==c366) n=266;
-		else if (cual==c367) n=267;
-		else if (cual==c368) n=268;
-		else if (cual==c369) n=269;
-		else if (cual==c370) n=270;
-		else if (cual==c371) n=271;
-		else if (cual==c372) n=272;
-		else if (cual==c373) n=273;
-		else if (cual==c374) n=274;
-		else if (cual==c375) n=275;
-		else if (cual==c376) n=276;
-		else if (cual==c377) n=277;
-		else if (cual==c378) n=278;
-		else if (cual==c379) n=279;
-		else if (cual==c380) n=280;
-		else if (cual==c381) n=281;
-		else if (cual==c382) n=282;
-		else if (cual==c383) n=283;
-		else if (cual==c384) n=284;
-		else if (cual==c385) n=285;
-		else if (cual==c386) n=286;
-		else if (cual==c387) n=287;
-		else if (cual==c388) n=288;
-		else if (cual==c389) n=289;
-		else if (cual==c390) n=290;
-		else if (cual==c391) n=291;
-		else if (cual==c392) n=292;
-		else if (cual==c393) n=293;
-		else if (cual==c394) n=294;
-		else if (cual==c395) n=295;
-		else if (cual==c396) n=296;
-		else if (cual==c397) n=297;
-		else if (cual==c398) n=298;
-		else if (cual==c399) n=299;
-		else if (cual==c400) n=300;
-		else if (cual==c401) n=301;
-		else if (cual==c402) n=302;
-		else if (cual==c403) n=303;
-		else if (cual==c404) n=304;
-		else if (cual==c405) n=305;
-		else if (cual==c406) n=306;
-		else if (cual==c407) n=307;
-		else if (cual==c408) n=308;
-		else if (cual==c409) n=309;
-		else if (cual==c410) n=310;
-		else if (cual==c411) n=311;
-		else if (cual==c412) n=312;
-		else if (cual==c413) n=313;
-		else if (cual==c414) n=314;
-		else if (cual==c415) n=315;
-		else if (cual==c416) n=316;
-		else if (cual==c417) n=317;
-		else if (cual==c418) n=318;
-		else if (cual==c419) n=319;
-		else if (cual==c420) n=320;
-		else if (cual==c421) n=321;
-		else if (cual==c422) n=322;
-		else if (cual==c423) n=323;
-		else if (cual==c424) n=324;
-		else if (cual==c425) n=325;
-		else if (cual==c426) n=326;
-		else if (cual==c427) n=327;
-		else if (cual==c428) n=328;
-		else if (cual==c429) n=329;
-		else if (cual==c430) n=330;
-		else if (cual==c431) n=331;
-		else if (cual==c432) n=332;
-		else if (cual==c433) n=333;
-		else if (cual==c434) n=334;
-		else if (cual==c435) n=335;
-		else if (cual==c436) n=336;
-		else if (cual==c437) n=337;
-		else if (cual==c438) n=338;
-		else if (cual==c439) n=339;
-		else if (cual==c440) n=340;
-		else if (cual==c441) n=341;
-		else if (cual==c442) n=342;
-		else if (cual==c443) n=343;
-		else if (cual==c444) n=344;
-		else if (cual==c445) n=345;
-		else if (cual==c446) n=346;
-		else if (cual==c447) n=347;
-		else if (cual==c448) n=348;
-		else if (cual==c449) n=349;
-		else if (cual==c450) n=350;
-		else if (cual==c451) n=351;
-		else if (cual==c452) n=352;
-		else if (cual==c453) n=353;
-		else if (cual==c454) n=354;
-		else if (cual==c455) n=355;
-		else if (cual==c456) n=356;
-		else if (cual==c457) n=357;
-		else if (cual==c458) n=358;
-		else if (cual==c459) n=359;
-		else if (cual==c460) n=360;
-		else n=-1;
-
-		avisarModal("Has pulsado en casilla "+n);
+		if (!esActivoGui)
+			return;
+		javax.swing.JLabel cualCasilla=(javax.swing.JLabel) evt.getSource();
+		if (getMarcaCasilla(cualCasilla)!=marcaVacia)
+			return;
+		esActivoGui=false;
+		marcarCasilla(cualCasilla);
+		pintarCasilla(cualCasilla);
+		comprobarVictoria(getOrdinalCasilla(cualCasilla));
+		esTurnoA=!esTurnoA;
+		setEstado("Es el turno del jugador "+(esTurnoA ? "A" : "B"));
+		esActivoGui=true;
 		return;
 	}
 	@Override
 	public void pulsandoBoton(java.awt.event.ActionEvent evt) {
+		esActivoGui=false;
 		if (evt.getActionCommand().equals("inicia A")) {
 			esTurnoA = true;
 			setEstado("Es el turno del jugador A");
@@ -4628,12 +4278,41 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 			setEstado("Es el turno del jugador B");
 			botonA.setEnabled(false);
 			botonB.setEnabled(false);
+		} else if (evt.getActionCommand().equals("ayuda")) {
+			avisarModal(
+				"En este juego, Gomoku, dos jugadores marcan                   \n"
+				+"casillas con su propio símbolo por turnos.\n"
+				+"Ganará la partida quien logre marcar cinco casillas\n"
+				+"consecutivas, en línea horizontal, vertical o diagonal.",
+				"Acerca de Gomoku"
+			);
 		}
+		esActivoGui=true;
 		return;
 	}
 	@Override
 	public void setEstado(String estado) {
 		campoEstado.setText(estado);
+		return;
+	}
+	public void borrarCasillas() {
+		for (int n=0; n<numCasillas; n++)
+			casillas[n]=0;
+		return;
+	}
+	public void marcarCasilla(javax.swing.JLabel casilla) {
+		casillas[getOrdinalCasilla(casilla)]=esTurnoA ? marcaA : marcaB;
+		return;
+	}
+	public void pintarCasilla(javax.swing.JLabel casilla) {
+		casilla.setIcon(esTurnoA ? imagenA : imagenB);
+		return;
+	}
+	public int getMarcaCasilla(javax.swing.JLabel casilla) {
+		return casillas[getOrdinalCasilla(casilla)];
+	}
+	public void comprobarVictoria(int ordinal) { // comprobar si ese ordinal de casilla produce victoria
+
 		return;
 	}
 }
