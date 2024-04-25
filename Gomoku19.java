@@ -4262,9 +4262,9 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		if (comprobarVictoria(getOrdinalCasilla(cualCasilla))) {
 			setEstado("Gana la partida el jugador " + (esTurnoA ? "A (X)" : "B (O)"));
 			if (esTurnoA)
-				avisarModal("¡Enhorabuena, jugador A!\nHas logrado hacer cinco en línea\ncon cruces azules.");
+				setEstado("Gana la partida el jugador A");
 			else
-				avisarModal("¡Enhorabuena, jugador B!\n\tHas logrado hacer cinco en línea\ncon círculos rojos.");
+				setEstado("Gana la partida el jugador B");
 		} else {
 			esTurnoA = !esTurnoA;
 			setEstado("Es el turno del jugador " + (esTurnoA ? "A (X)" : "B (O)"));
@@ -4386,33 +4386,18 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 	@Override
 	public boolean comprobar5enLinea(int ordinal, int xDelta, int yDelta) {
 		int marca=casillas[ordinal]; // marca a detectar
-		int x0=ordinalToColumna(ordinal); // columna diana original
-		int y0=ordinalToFila(ordinal); // fila diana original
-		int xIni; // columna inicial de exploración
-		int xFin; // columna final de exploración
-		int yIni; // fila inicial de exploración
-		int yFin; // fila final de exploración
-		int x; // explorador de columna
-		int y; // explorador de fila
-
-		xIni=limitarTablero(x0-4*xDelta, numColumnas);
-		xFin=limitarTablero(x0+4*xDelta, numColumnas);
-		yIni=limitarTablero(y0-4*xDelta, numFilas);
-		yFin=limitarTablero(y0+4*xDelta, numFilas);
-
-		x=xIni;
-		y=yIni;
-		int contadorBucle=10; // límite de ciclos en bucle para prever bucle sin fin
+		int x=ordinalToColumna(ordinal)-4*xDelta; // posición inicial del explorador de columna
+		int y=ordinalToFila(ordinal)-4*yDelta; // posición inicial del explorador de fila
 		int numDianas=0; // contador de aciertos consecutivos
-		do {
-			if (casillas[filaColumnaToOrdinal(y, x)]==marca)
+
+		for (int pasos=9; pasos>0 && numDianas<5; pasos--) {
+			if (x>=0 && x<numColumnas && y>=0 && y<numFilas && casillas[filaColumnaToOrdinal(y, x)]==marca)
 				numDianas++;
 			else
 				numDianas=0;
-			contadorBucle--;
 			x+=xDelta;
 			y+=yDelta;
-		} while (numDianas<5 && (x!=xFin || y!=yFin) && contadorBucle>0);
-		return numDianas>=5;
+		}
+		return numDianas>4;
 	}
 }
