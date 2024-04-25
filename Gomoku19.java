@@ -4259,10 +4259,17 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		esActivoGui=false;
 		marcarCasilla(cualCasilla);
 		pintarCasilla(cualCasilla);
-		comprobarVictoria(getOrdinalCasilla(cualCasilla));
-		esTurnoA=!esTurnoA;
-		setEstado("Es el turno del jugador "+(esTurnoA ? "A (X)" : "B (O)"));
-		esActivoGui=true;
+		if (comprobarVictoria(getOrdinalCasilla(cualCasilla))) {
+			setEstado("Gana la partida el jugador " + (esTurnoA ? "A (X)" : "B (O)"));
+			if (esTurnoA)
+				avisarModal("¡Enhorabuena, jugador A!\nHas logrado hacer cinco en línea\ncon cruces azules.");
+			else
+				avisarModal("¡Enhorabuena, jugador B!\n\tHas logrado hacer cinco en línea\ncon círculos rojos.");
+		} else {
+			esTurnoA = !esTurnoA;
+			setEstado("Es el turno del jugador " + (esTurnoA ? "A (X)" : "B (O)"));
+			esActivoGui = true;
+		}
 		return;
 	}
 	@Override
@@ -4280,10 +4287,10 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 			botonB.setEnabled(false);
 		} else if (evt.getActionCommand().equals("ayuda")) {
 			avisarModal(
-				"En este juego, Gomoku, dos jugadores marcan                   \n"
-				+"casillas con su propio símbolo por turnos.\n"
+				"En este juego, Gomoku, dos jugadores marcan casillas\n"
+				+"con su propio símbolo por turnos.\n"
 				+"Ganará la partida quien logre marcar cinco casillas\n"
-				+"consecutivas, en línea horizontal, vertical o diagonal.",
+				+"consecutivas en línea horizontal, vertical o diagonalmente.",
 				"Acerca de Gomoku"
 			);
 		}
@@ -4316,23 +4323,96 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 		return casillas[getOrdinalCasilla(casilla)];
 	}
 	@Override
-	public void comprobarVictoria(int ordinal) { // comprobar si ese ordinal de casilla produce victoria
-		if (
-			comprobarVictoriaHorizontal(ordinal)
-			|| comprobarVictoriaVertical(ordinal)
-			|| comprobarVictoriaDiagonalPrincipal(ordinal)
-			|| comprobarVictoriaDiagonalSecundaria(ordinal)
-		) {
-			setEstado("Gana la partida el jugador "+(esTurnoA ? "A (X)" : "B (O)"));
-			botonC.setEnabled(false);
+	public boolean comprobarVictoria(int ordinal) { // comprobar si ese ordinal de casilla produce victoria
+		int xDelta; // incremento direccional de columna (0: quieto, 1: derecha, -1: izquierda)
+		int yDelta; // incremento direccional de fila (0: quieto, 1: abajo, -1: arriba)
+
+		String quienJuega; // quién está jugando
+		String tipoMarcas; // tipo de marcas del jugador en turno
+		if (esTurnoA) {
+			quienJuega="A";
+			tipoMarcas="cruces azules";
+		} else {
+			quienJuega="B";
+			tipoMarcas="círculos rojos";
 		}
-		return;
+
+		// comprobación 5 en raya horizontal
+		xDelta=1; // hacia derecha
+		yDelta=0; // misma fila
+		if (comprobar5enLinea(ordinal, xDelta, yDelta)) {
+			avisarModal(
+				"¡Enhorabuena, jugador "+quienJuega+"!\n"
+					+"El jugador "+quienJuega+" gana la partida\ncolocando cinco "+tipoMarcas
+					+"\nen línea horizontalmente.",
+				"Fin de partida");
+			return true;
+		}
+		// comprobación 5 en raya vertical
+		xDelta=0; // misma columna
+		yDelta=1; // hacia abajo
+		if (comprobar5enLinea(ordinal, xDelta, yDelta)) {
+			avisarModal(
+				"¡Enhorabuena, jugador "+quienJuega+"!\n"
+					+"El jugador "+quienJuega+" gana la partida\ncolocando cinco "+tipoMarcas
+					+"\nen línea verticalmente.",
+				"Fin de partida");
+			return true;
+		}
+		// comprobación 5 en raya diagonal descendente
+		xDelta=1; // misma columna
+		yDelta=1; // hacia abajo
+		if (comprobar5enLinea(ordinal, xDelta, yDelta)) {
+			avisarModal(
+					"¡Enhorabuena, jugador "+quienJuega+"!\n"
+							+"El jugador "+quienJuega+" gana la partida\ncolocando cinco "+tipoMarcas
+							+"\nen diagonal descendente.",
+					"Fin de partida");
+			return true;
+		}
+		// comprobación 5 en raya diagonal ascendente
+		xDelta=1; // misma columna
+		yDelta=-1; // hacia abajo
+		if (comprobar5enLinea(ordinal, xDelta, yDelta)) {
+			avisarModal(
+					"¡Enhorabuena, jugador "+quienJuega+"!\n"
+							+"El jugador "+quienJuega+" gana la partida\ncolocando cinco "+tipoMarcas
+							+"\nen diagonal ascendente.",
+					"Fin de partida");
+			return true;
+		}
+		return false;
 	}
 	@Override
-	public boolean comprobarVictoriaHorizontal(int ordinal) {
-		int fila=ordinalToFila(ordinal);
-		for (int columna=ordinalToColumna(ordinal)-4; columna<=ordinalToColumna(ordinal); columna++)
-	//		if (columna>=)
-	//	return;
+	public boolean comprobar5enLinea(int ordinal, int xDelta, int yDelta) {
+		int marca=casillas[ordinal]; // marca a detectar
+		int x0=ordinalToColumna(ordinal); // columna diana original
+		int y0=ordinalToFila(ordinal); // fila diana original
+		int xIni; // columna inicial de exploración
+		int xFin; // columna final de exploración
+		int yIni; // fila inicial de exploración
+		int yFin; // fila final de exploración
+		int x; // explorador de columna
+		int y; // explorador de fila
+
+		xIni=limitarTablero(x0-4*xDelta, numColumnas);
+		xFin=limitarTablero(x0+4*xDelta, numColumnas);
+		yIni=limitarTablero(y0-4*xDelta, numFilas);
+		yFin=limitarTablero(y0+4*xDelta, numFilas);
+
+		x=xIni;
+		y=yIni;
+		int contadorBucle=10; // límite de ciclos en bucle para prever bucle sin fin
+		int numDianas=0; // contador de aciertos consecutivos
+		do {
+			if (casillas[filaColumnaToOrdinal(y, x)]==marca)
+				numDianas++;
+			else
+				numDianas=0;
+			contadorBucle--;
+			x+=xDelta;
+			y+=yDelta;
+		} while (numDianas<5 && (x!=xFin || y!=yFin) && contadorBucle>0);
+		return numDianas>=5;
 	}
 }

@@ -21,11 +21,8 @@ public interface ControlGomoku19 {
 	void marcarCasilla(javax.swing.JLabel casilla); // marca una casilla para un jugador
 	void pintarCasilla(javax.swing.JLabel casilla); // pinta una casilla en el tablero para un jugador
 	int getMarcaCasilla(javax.swing.JLabel casilla); // devuelve la marca de una casilla
-	void comprobarVictoria(int ordinal); // comprueba si se ha alcanzado victoria al jugar en casilla ordinal
-	boolean comprobarVictoriaHorizontal(int ordinal); // comprueba victoria en línea horizontal
-	boolean comprobarVictoriaVertical(int ordinal); // comprueba victoria en línea vertical
-	boolean comprobarVictoriaDiagonalPrincipal(int ordinal); // comprueba victoria en diagonal principal (0, 0)-(n, n)
-	boolean comprobarVictoriaDiagonalSecundaria(int ordinal); // comprueba victoria en diagonal secundaria (0, n)-(n, 0)
+	boolean comprobarVictoria(int ordinal); // comprueba si se ha alcanzado victoria al jugar en casilla ordinal
+	boolean comprobar5enLinea(int ordinal, int xDelta, int yDelta); // busca 5 en raya centrado en casilla ordinal en dirección (xDelta, yDelta)
 
 	// métodos	default
 	default void avisarModal(String mensaje) {
@@ -57,5 +54,8 @@ public interface ControlGomoku19 {
 	}
 	default int ordinalToColumna(int ordinal) {
 		return ordinal%numColumnas;
+	}
+	default int limitarTablero(int posicion, int longitud) { // devuelve posición corregida no inferior a cero, inferior a longitud
+		return posicion<0 ? 0 : posicion>longitud-1 ? longitud-1 : posicion;
 	}
 }
