@@ -23,6 +23,8 @@ public interface ControlGomoku19 {
 	int getMarcaCasilla(javax.swing.JLabel casilla); // devuelve la marca de una casilla
 	boolean comprobarVictoria(int ordinal); // comprueba si se ha alcanzado victoria al jugar en casilla ordinal
 	boolean comprobar5enLinea(int ordinal, int xDelta, int yDelta); // busca 5 en raya centrado en casilla ordinal en dirección (xDelta, yDelta)
+	void reiniciar(); // reinicia una nueva partida
+	void limpiarTablero(); // establece todas las casillas con imagen vacía
 
 	// métodos	default
 	default void avisarModal(String mensaje) {
