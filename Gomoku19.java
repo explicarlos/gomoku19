@@ -4234,8 +4234,8 @@ public class Gomoku19 extends javax.swing.JFrame implements ControlGomoku19 {
 
 	// métodos propios
 	public void ejecutarControl() {
-		setTitle("Gomoku-19    © 2024  Carlos Grasa lambea"); // establece título de ventana
-		setIconImage(new ImageIcon("logodesarrollador64.png").getImage()); // establece icono de ventana
+		setTitle("Gomoku-19    © 2024  Carlos Grasa Lambea"); // establece título de ventana
+		setIconImage(new javax.swing.ImageIcon(getClass().getResource("logodesarrollador64.png")).getImage()); // establece icono de ventana
 		botonA.setText("inicia A");
 		botonA.setEnabled(true);
 		botonB.setText("inicia B");
